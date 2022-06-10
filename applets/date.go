@@ -3,15 +3,15 @@ package applets
 import "time"
 
 const (
-	datefmt = "Monday January 2"
-	timefmt = "15:04"
+	datefmt = " Monday January 2"
+	timefmt = " 15:04"
 )
 
-func date_applet(...interface{}) (string, error) {
+func dateApplet(...interface{}) (string, error) {
 	current := time.Now()
 	return current.Format(datefmt), nil
 }
-func time_applet(...interface{}) (string, error) {
+func timeApplet(...interface{}) (string, error) {
 	current := time.Now()
 	return current.Format(timefmt), nil
 }
