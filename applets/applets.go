@@ -1,12 +1,28 @@
 package applets
 
-import "fmt"
+import (
+	"fmt"
+	"os/exec"
+	"strings"
+)
 
 type Applet struct {
 	Name           string
 	UpdateInterval uint
 	Enabled        bool
 	Function       func(...interface{}) (string, error)
+}
+
+func cmdApplet(cmd string) func(...interface{}) (string, error) {
+	args := strings.Split(cmd, " ")
+	return func(i ...interface{}) (string, error) {
+		cmd := exec.Command(args[0], args[1:]...)
+		output, err := cmd.Output()
+		if err != nil {
+			return "", err
+		}
+		return string(output), nil
+	}
 }
 
 var Applets []Applet = []Applet{
