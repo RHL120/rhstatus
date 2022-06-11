@@ -3,16 +3,16 @@ package applets
 import "fmt"
 
 type Applet struct {
-	name           string
+	Name           string
 	UpdateInterval uint
 	Enabled        bool
 	Function       func(...interface{}) (string, error)
 }
 
 var Applets []Applet = []Applet{
-	{UpdateInterval: 120, Enabled: true, Function: batteryApplet},
-	{UpdateInterval: 60, Enabled: true, Function: dateApplet},
-	{UpdateInterval: 60, Enabled: true, Function: timeApplet},
+	{Name: "battery", UpdateInterval: 120, Enabled: true, Function: batteryApplet},
+	{Name: "date", UpdateInterval: 60, Enabled: true, Function: dateApplet},
+	{Name: "time", UpdateInterval: 60, Enabled: true, Function: timeApplet},
 }
 
 func PrintApplets() {
