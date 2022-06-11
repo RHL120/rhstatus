@@ -28,7 +28,7 @@ func cmdApplet(cmd string) func(...interface{}) (string, error) {
 	}
 }
 
-var Applets []Applet = []Applet{
+var Applets []*Applet = []*Applet{
 	{Name: "audio", Enabled: true, function: cmdApplet(audioCmd)},
 	{Name: "battery", Enabled: true, function: batteryApplet},
 	{Name: "date", Enabled: true, function: dateApplet},
@@ -37,24 +37,29 @@ var Applets []Applet = []Applet{
 
 func (applet *Applet) Toggle() {
 	applet.Enabled = !applet.Enabled
+	fmt.Println(*applet)
 }
 
 func Render() {
 	var status string
 	for _, i := range Applets {
-		ret, err := i.function()
-		if err != nil {
-			fmt.Printf("Failed to run applet %s because %v\n", i.Name, err)
-			continue
+		if i.Enabled {
+			fmt.Println(i.Name, " ", i.Enabled)
+			ret, err := i.function()
+			if err != nil {
+				fmt.Printf("Failed to run applet %s because %v\n",
+					i.Name, err)
+				continue
+			}
+			status = fmt.Sprintf("%s  |  %s", status, ret)
+			X.UpdateStatus(status)
 		}
-		status = fmt.Sprintf("%s  |  %s", status, ret)
-		X.UpdateStatus(status)
 	}
 }
 func FindApplet(name string) *Applet {
 	for _, i := range Applets {
 		if i.Name == name {
-			return &i
+			return i
 		}
 	}
 	return nil
