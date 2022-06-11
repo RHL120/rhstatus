@@ -3,7 +3,6 @@ package applets
 import (
 	"fmt"
 	"os/exec"
-	"strings"
 
 	"github.com/RHL120/rhstatus/X"
 )
@@ -14,12 +13,11 @@ type Applet struct {
 	function func(...interface{}) (string, error)
 }
 
-const audioCmd string = "./audio.sh"
+const audioCmd string = "echo \"  \" $(amixer get Master |grep % |sed -e 's/\\].*//' |sed -e 's/.*\\[//')"
 
 func cmdApplet(cmd string) func(...interface{}) (string, error) {
-	args := strings.Split(cmd, " ")
 	return func(i ...interface{}) (string, error) {
-		cmd := exec.Command(args[0], args[1:]...)
+		cmd := exec.Command("sh", "-c", cmd)
 		output, err := cmd.Output()
 		if err != nil {
 			return "", err
