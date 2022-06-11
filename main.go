@@ -8,7 +8,7 @@ import (
 	"github.com/RHL120/rhstatus/applets"
 )
 
-const sleepTime = 10 * time.Second
+const sleepTime = 3 * time.Second
 
 func main() {
 	defer X.CloseDisplay()
