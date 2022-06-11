@@ -27,11 +27,11 @@ func main() {
 	defer C.XCloseDisplay(dpy)
 	for {
 		var goName string
-		for name, i := range applets.Applets {
+		for _, i := range applets.Applets {
 			ret, err := i.Function()
-			fmt.Println(name)
+			fmt.Println(i.Name)
 			if err != nil {
-				fmt.Printf("Failed to run applet %s because %v\n", name, err)
+				fmt.Printf("Failed to run applet %s because %v\n", i.Name, err)
 				continue
 			}
 			goName = fmt.Sprintf("%s  |  %s", goName, ret)
