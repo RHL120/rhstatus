@@ -33,7 +33,6 @@ func handelConnection(conn net.Conn, ch chan func() error) {
 		fmt.Printf("Failed to read from a connection, error: %v\n", err)
 		return
 	}
-	fmt.Println(string(data))
 	args := strings.Split(strings.Trim(data, "\n"), " ")
 	if len(args) <= 0 {
 		conn.Write([]byte("Expected a command\n"))

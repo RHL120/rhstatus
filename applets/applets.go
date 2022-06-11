@@ -35,14 +35,12 @@ var Applets []*Applet = []*Applet{
 
 func (applet *Applet) Toggle() {
 	applet.Enabled = !applet.Enabled
-	fmt.Println(*applet)
 }
 
 func Render() {
 	var status string
 	for _, i := range Applets {
 		if i.Enabled {
-			fmt.Println(i.Name, " ", i.Enabled)
 			ret, err := i.function()
 			if err != nil {
 				fmt.Printf("Failed to run applet %s because %v\n",
