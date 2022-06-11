@@ -8,8 +8,10 @@ import (
 	"strings"
 )
 
+const serverPort = 6666
+
 func RunServer(ch chan func() error) {
-	listener, err := net.Listen("tcp", "localhost:6666")
+	listener, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", serverPort))
 	if err != nil {
 		fmt.Printf("Failed to start IPC server: %v\n", err)
 		ch <- func() error {
