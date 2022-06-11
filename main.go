@@ -12,9 +12,21 @@ const sleepTime = 10 * time.Second
 
 func main() {
 	defer X.CloseDisplay()
+	serverChan := make(chan func() error)
+	timeOutChan := make(chan bool)
+	go func(c chan bool) {
+		for {
+			time.Sleep(sleepTime)
+			c <- true
+		}
+	}(timeOutChan)
 	for {
-		applets.Render()
-		time.Sleep(sleepTime)
+		select {
+		case <-timeOutChan:
+			applets.Render()
+		case f := <-serverChan:
+			f()
+		}
 	}
 
 }

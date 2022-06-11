@@ -6,13 +6,13 @@ import (
 	"github.com/RHL120/rhstatus/applets"
 )
 
-type Command struct {
-	function func(arg []string) func(...interface{}) error
+type command struct {
+	function func(arg []string) func() error
 	argCount uint8
 }
 
-func toggleApplet(arg []string) func(...interface{}) error {
-	return func(...interface{}) error {
+func toggleApplet(arg []string) func() error {
+	return func() error {
 
 		applet := applets.FindApplet(arg[0])
 		if applet == nil {
@@ -23,8 +23,8 @@ func toggleApplet(arg []string) func(...interface{}) error {
 	}
 }
 
-func turnApplet(arg []string) func(...interface{}) error {
-	return func(...interface{}) error {
+func turnApplet(arg []string) func() error {
+	return func() error {
 		var enabled bool
 		switch arg[0] {
 		case "on":
@@ -43,14 +43,14 @@ func turnApplet(arg []string) func(...interface{}) error {
 	}
 }
 
-func refresh(arg []string) func(...interface{}) error {
-	return func(params ...interface{}) error {
+func refresh(arg []string) func() error {
+	return func() error {
 		applets.Render()
 		return nil
 	}
 }
 
-var commands map[string]Command = map[string]Command{
+var commands map[string]command = map[string]Command{
 	"toggle":  {function: toggleApplet, argCount: 1},
 	"turn":    {function: turnApplet, argCount: 2},
 	"refresh": {function: refresh, argCount: 0},
