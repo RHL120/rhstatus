@@ -5,7 +5,8 @@ A status bar for dwm written in Go
 In order to add a new applet, add a new **Applet** struct to **Applets** in 
 applets/applets.go.
 Applets are rendered on to the status bar by order (The top applet on the left
-the bottom applet on the right). the **Applet** struct has a field function
+and the bottom applet on the right). 
+The **Applet** struct has a field **function**
 which is a go function that takes in a bunch of arguments of any type and returns
 a string. The returned string get rendered. To add a shell command applet use the
 cmdApplet function. Use the audio applet as an example.
