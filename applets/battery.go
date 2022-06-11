@@ -16,7 +16,6 @@ func batteryApplet(...interface{}) (string, error) {
 	}
 	var ret string
 	for index, i := range entries {
-		fmt.Println(i.IsDir())
 		if strings.HasPrefix(i.Name(), "BAT") {
 			icon := "    "
 			status, err := ioutil.ReadFile(filepath.Join(batteryPath,
@@ -35,7 +34,6 @@ func batteryApplet(...interface{}) (string, error) {
 			} else {
 				ret = fmt.Sprintf("%s %s%%", icon, capS)
 			}
-			fmt.Println(ret)
 		}
 	}
 	return ret, nil

@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/RHL120/rhstatus/X"
+	"github.com/RHL120/rhstatus/api"
 	"github.com/RHL120/rhstatus/applets"
 )
 
@@ -15,10 +16,11 @@ func main() {
 	timeOutChan := make(chan bool)
 	go func(c chan bool) {
 		for {
-			time.Sleep(sleepTime)
 			c <- true
+			time.Sleep(sleepTime)
 		}
 	}(timeOutChan)
+	go api.RunServer(serverChan)
 	for {
 		select {
 		case <-timeOutChan:

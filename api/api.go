@@ -1,16 +1,17 @@
 package api
 
 import (
+	"bufio"
 	"fmt"
 	"net"
 	"os"
 	"strings"
 )
 
-func runServer(ch chan func() error) {
+func RunServer(ch chan func() error) {
 	listener, err := net.Listen("tcp", "localhost:6666")
 	if err != nil {
-		fmt.Println("Failed to start IPC server: %v", err)
+		fmt.Printf("Failed to start IPC server: %v\n", err)
 		ch <- func() error {
 			os.Exit(1)
 			return nil
@@ -19,33 +20,34 @@ func runServer(ch chan func() error) {
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			fmt.Println("Failed to accept a connection, error: %v", err)
-			go handelConnection(conn, ch)
+			fmt.Printf("Failed to accept a connection, error: %v\n", err)
 		}
+		go handelConnection(conn, ch)
 	}
 }
 
 func handelConnection(conn net.Conn, ch chan func() error) {
 	defer conn.Close()
-	data := make([]byte, 0)
-	_, err := conn.Read(data)
+	data, err := bufio.NewReader(conn).ReadString('\n')
 	if err != nil {
-		fmt.Println("Failed to read from a connection, error: %v", err)
+		fmt.Printf("Failed to read from a connection, error: %v\n", err)
 		return
 	}
-	args := strings.Split(string(data), " ")
+	fmt.Println(string(data))
+	args := strings.Split(strings.Trim(data, "\n"), " ")
 	if len(args) <= 0 {
-		conn.Write([]byte("Expected a command"))
+		conn.Write([]byte("Expected a command\n"))
 		return
 	}
 	cmd, ok := commands[args[0]]
 	if !ok {
-		conn.Write([]byte("Command not found: " + args[0]))
+		conn.Write([]byte("Command not found: " + args[0] + "\n"))
 		return
 	}
 	if cmd.argCount != uint8(len(args)) {
-		conn.Write([]byte(fmt.Sprintf("Command %s expects %d arguments", args[0], cmd.argCount)))
+		conn.Write([]byte(fmt.Sprintf("Command %s expects %d arguments\n", args[0], cmd.argCount)))
 	}
+	conn.Write([]byte("Executing\n"))
 	ch <- cmd.function(args[1:])
 
 }

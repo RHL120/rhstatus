@@ -43,7 +43,6 @@ func Render() {
 	var status string
 	for _, i := range Applets {
 		ret, err := i.function()
-		fmt.Println(i.Name)
 		if err != nil {
 			fmt.Printf("Failed to run applet %s because %v\n", i.Name, err)
 			continue

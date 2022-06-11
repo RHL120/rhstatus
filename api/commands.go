@@ -50,7 +50,7 @@ func refresh(arg []string) func() error {
 	}
 }
 
-var commands map[string]command = map[string]Command{
+var commands map[string]command = map[string]command{
 	"toggle":  {function: toggleApplet, argCount: 1},
 	"turn":    {function: turnApplet, argCount: 2},
 	"refresh": {function: refresh, argCount: 0},
