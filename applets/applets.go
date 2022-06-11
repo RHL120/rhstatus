@@ -14,15 +14,7 @@ type Applet struct {
 	function func(...interface{}) (string, error)
 }
 
-func (applet *Applet) ToggleApplet() {
-	applet.enabled = !applet.enabled
-}
-
-var Applets []Applet = []Applet{
-	{Name: "battery", enabled: true, function: batteryApplet},
-	{Name: "date", enabled: true, function: dateApplet},
-	{Name: "time", enabled: true, function: timeApplet},
-}
+const audioCmd string = "./audio.sh"
 
 func cmdApplet(cmd string) func(...interface{}) (string, error) {
 	args := strings.Split(cmd, " ")
@@ -34,6 +26,17 @@ func cmdApplet(cmd string) func(...interface{}) (string, error) {
 		}
 		return string(output), nil
 	}
+}
+
+var Applets []Applet = []Applet{
+	{Name: "audio", enabled: true, function: cmdApplet(audioCmd)},
+	{Name: "battery", enabled: true, function: batteryApplet},
+	{Name: "date", enabled: true, function: dateApplet},
+	{Name: "time", enabled: true, function: timeApplet},
+}
+
+func (applet *Applet) ToggleApplet() {
+	applet.enabled = !applet.enabled
 }
 
 func Render(dpy interface{}) {
