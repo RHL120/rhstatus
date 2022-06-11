@@ -45,7 +45,8 @@ func turnApplet(arg []string) func() error {
 
 func refresh(arg []string) func() error {
 	return func() error {
-		applets.Render()
+		//refresh does nothing since after calling the function
+		//main calls render
 		return nil
 	}
 }

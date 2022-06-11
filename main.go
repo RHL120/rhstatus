@@ -27,6 +27,7 @@ func main() {
 			applets.Render()
 		case f := <-serverChan:
 			f()
+			applets.Render()
 		}
 	}
 
