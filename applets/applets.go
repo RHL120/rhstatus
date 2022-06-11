@@ -9,8 +9,9 @@ type Applet struct {
 }
 
 var Applets map[string]Applet = map[string]Applet{
-	"date": {UpdateInterval: 60, Enabled: true, Function: dateApplet},
-	"time": {UpdateInterval: 60, Enabled: true, Function: timeApplet},
+	"battery": {UpdateInterval: 120, Enabled: true, Function: batteryApplet},
+	"date":    {UpdateInterval: 60, Enabled: true, Function: dateApplet},
+	"time":    {UpdateInterval: 60, Enabled: true, Function: timeApplet},
 }
 
 func PrintApplets() {
