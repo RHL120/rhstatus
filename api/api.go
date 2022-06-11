@@ -43,7 +43,7 @@ func handelConnection(conn net.Conn, ch chan func() error) {
 		conn.Write([]byte("Command not found: " + args[0] + "\n"))
 		return
 	}
-	if cmd.argCount != uint8(len(args)) {
+	if cmd.argCount != uint8(len(args)-1) {
 		conn.Write([]byte(fmt.Sprintf("Command %s expects %d arguments\n", args[0], cmd.argCount)))
 	}
 	conn.Write([]byte("Executing\n"))
