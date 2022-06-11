@@ -11,10 +11,9 @@ import (
 const sleepTime = 10 * time.Second
 
 func main() {
-	dpy := X.OpenDisplay()
-	defer X.CloseDisplay(dpy)
+	defer X.CloseDisplay()
 	for {
-		applets.Render(dpy)
+		applets.Render()
 		time.Sleep(sleepTime)
 	}
 

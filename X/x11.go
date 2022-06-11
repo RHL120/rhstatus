@@ -15,18 +15,21 @@ package X
 import "C"
 import "unsafe"
 
+var dpy = C.XOpenDisplay(nil)
+var rw = C.rw(dpy)
+
 func OpenDisplay() *C.Display {
 	return C.XOpenDisplay(nil)
 }
 
-func CloseDisplay(dpy *C.Display) {
+func CloseDisplay() {
 	C.XCloseDisplay(dpy)
 }
 
-func UpdateStatus(dpy interface{}, status string) {
-	rw := C.rw(dpy.(*C.Display))
+func UpdateStatus(status string) {
+	rw := C.rw(dpy)
 	cstatus := C.CString(status)
 	defer C.free(unsafe.Pointer(cstatus))
-	C.XStoreName(dpy.(*C.Display), rw, cstatus)
-	C.XFlush(dpy.(*C.Display))
+	C.XStoreName(dpy, rw, cstatus)
+	C.XFlush(dpy)
 }

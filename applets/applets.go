@@ -10,7 +10,7 @@ import (
 
 type Applet struct {
 	Name     string
-	enabled  bool
+	Enabled  bool
 	function func(...interface{}) (string, error)
 }
 
@@ -29,17 +29,17 @@ func cmdApplet(cmd string) func(...interface{}) (string, error) {
 }
 
 var Applets []Applet = []Applet{
-	{Name: "audio", enabled: true, function: cmdApplet(audioCmd)},
-	{Name: "battery", enabled: true, function: batteryApplet},
-	{Name: "date", enabled: true, function: dateApplet},
-	{Name: "time", enabled: true, function: timeApplet},
+	{Name: "audio", Enabled: true, function: cmdApplet(audioCmd)},
+	{Name: "battery", Enabled: true, function: batteryApplet},
+	{Name: "date", Enabled: true, function: dateApplet},
+	{Name: "time", Enabled: true, function: timeApplet},
 }
 
-func (applet *Applet) ToggleApplet() {
-	applet.enabled = !applet.enabled
+func (applet *Applet) Toggle() {
+	applet.Enabled = !applet.Enabled
 }
 
-func Render(dpy interface{}) {
+func Render() {
 	var status string
 	for _, i := range Applets {
 		ret, err := i.function()
@@ -49,6 +49,14 @@ func Render(dpy interface{}) {
 			continue
 		}
 		status = fmt.Sprintf("%s  |  %s", status, ret)
-		X.UpdateStatus(dpy, status)
+		X.UpdateStatus(status)
 	}
+}
+func FindApplet(name string) *Applet {
+	for _, i := range Applets {
+		if i.Name == name {
+			return &i
+		}
+	}
+	return nil
 }
