@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/RHL120/rhstatus/applets"
 )
@@ -51,8 +52,16 @@ func refresh(arg []string) func() error {
 	}
 }
 
+func shutdown(arg []string) func() error {
+	return func() error {
+		os.Exit(0)
+		return nil
+	}
+}
+
 var commands map[string]command = map[string]command{
-	"toggle":  {function: toggleApplet, argCount: 1},
-	"turn":    {function: turnApplet, argCount: 2},
-	"refresh": {function: refresh, argCount: 0},
+	"shutdown": {function: shutdown, argCount: 0},
+	"toggle":   {function: toggleApplet, argCount: 1},
+	"turn":     {function: turnApplet, argCount: 2},
+	"refresh":  {function: refresh, argCount: 0},
 }
