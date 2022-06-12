@@ -10,6 +10,7 @@ import (
 
 const serverPort = 6666
 
+//Start the IPC server
 func RunServer(ch chan func() error) {
 	listener, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", serverPort))
 	if err != nil {

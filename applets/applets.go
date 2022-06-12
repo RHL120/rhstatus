@@ -7,6 +7,7 @@ import (
 	"github.com/RHL120/rhstatus/X"
 )
 
+//Contains info about the applet
 type Applet struct {
 	//How will the applet be refrenced by the server. Name shouldn't
 	//contain spaces
@@ -36,7 +37,7 @@ func constantApplet(str string) func() (string, error) {
 	}
 }
 
-var Applets []*Applet = []*Applet{
+var applets []*Applet = []*Applet{
 	{Name: "caps", Enabled: false, function: constantApplet(" Caps")},
 	{Name: "audio", Enabled: true, function: cmdApplet(audioCmd)},
 	{Name: "battery", Enabled: true, function: batteryApplet},
@@ -44,13 +45,16 @@ var Applets []*Applet = []*Applet{
 	{Name: "time", Enabled: true, function: timeApplet},
 }
 
+//Toggle applet.Enabled
 func (applet *Applet) Toggle() {
 	applet.Enabled = !applet.Enabled
 }
 
+//run the applets in applets.applets and put their return value onto the status
+//bar
 func Render() {
 	var status string
-	for _, i := range Applets {
+	for _, i := range applets {
 		if i.Enabled {
 			ret, err := i.function()
 			if err != nil {
@@ -66,8 +70,10 @@ func Render() {
 	}
 }
 
+//look for the applet with name "name" in applets.applets and return a pointer
+//to it
 func FindApplet(name string) *Applet {
-	for _, i := range Applets {
+	for _, i := range applets {
 		if i.Name == name {
 			return i
 		}

@@ -28,6 +28,9 @@ func batteryApplet() (string, error) {
 			}
 			cap, err := ioutil.ReadFile(filepath.Join(batteryPath,
 				i.Name(), "capacity"))
+			if err != nil {
+				return "", err
+			}
 			capS := strings.Trim(string(cap), "\n")
 			if index > 0 {
 				ret = fmt.Sprintf("%s %s %s%%", ret, icon, capS)
