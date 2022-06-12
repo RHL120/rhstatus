@@ -58,8 +58,10 @@ func Render() {
 					i.Name, err)
 				continue
 			}
-			status = fmt.Sprintf("%s  |  %s", status, ret)
-			X.UpdateStatus(status)
+			if ret != "" {
+				status = fmt.Sprintf("%s  |  %s", status, ret)
+				X.UpdateStatus(status)
+			}
 		}
 	}
 }
