@@ -23,3 +23,9 @@ the args slice expected by **function**. The length will be checked before
 In order to change the frequency of status bar refresh change the **sleepTime**
 constant.
 
+## Usage
+### Server
+In order to communicate with the status bar send commands to localhost : **port**
+Commands start with the name of the command and then a list of arguments seperated
+by spaces. After sneding the command send a newline. After that you should recive
+either an error or a success message.
