@@ -33,6 +33,7 @@ func constantApplet(str string) func(...interface{}) (string, error) {
 }
 
 var Applets []*Applet = []*Applet{
+	{Name: "caps", Enabled: false, function: constantApplet(" Caps")},
 	{Name: "audio", Enabled: true, function: cmdApplet(audioCmd)},
 	{Name: "battery", Enabled: true, function: batteryApplet},
 	{Name: "date", Enabled: true, function: dateApplet},
