@@ -9,7 +9,7 @@ import (
 
 const batteryPath = "/sys/class/power_supply/"
 
-func batteryApplet(...interface{}) (string, error) {
+func batteryApplet() (string, error) {
 	entries, err := ioutil.ReadDir(batteryPath)
 	if err != nil {
 		return "", err

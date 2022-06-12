@@ -14,13 +14,13 @@ type Applet struct {
 	//should this applet be shown by default
 	Enabled bool
 	//the function that produces the text to be put on the status bar
-	function func(...interface{}) (string, error)
+	function func() (string, error)
 }
 
 const audioCmd string = "echo \"  \" $(amixer get Master |grep % |sed -e 's/\\].*//' |sed -e 's/.*\\[//')"
 
-func cmdApplet(cmd string) func(...interface{}) (string, error) {
-	return func(i ...interface{}) (string, error) {
+func cmdApplet(cmd string) func() (string, error) {
+	return func() (string, error) {
 		cmd := exec.Command("sh", "-c", cmd)
 		output, err := cmd.Output()
 		if err != nil {
@@ -30,8 +30,8 @@ func cmdApplet(cmd string) func(...interface{}) (string, error) {
 	}
 }
 
-func constantApplet(str string) func(...interface{}) (string, error) {
-	return func(i ...interface{}) (string, error) {
+func constantApplet(str string) func() (string, error) {
+	return func() (string, error) {
 		return str, nil
 	}
 }

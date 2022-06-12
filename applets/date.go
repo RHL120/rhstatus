@@ -7,11 +7,11 @@ const (
 	timefmt = " 15:04"
 )
 
-func dateApplet(...interface{}) (string, error) {
+func dateApplet() (string, error) {
 	current := time.Now()
 	return current.Format(datefmt), nil
 }
-func timeApplet(...interface{}) (string, error) {
+func timeApplet() (string, error) {
 	current := time.Now()
 	return current.Format(timefmt), nil
 }
