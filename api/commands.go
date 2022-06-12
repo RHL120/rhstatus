@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/RHL120/rhstatus/X"
 	"github.com/RHL120/rhstatus/applets"
 )
 
@@ -54,6 +55,7 @@ func refresh(arg []string) func() error {
 
 func shutdown(arg []string) func() error {
 	return func() error {
+		X.CloseDisplay()
 		os.Exit(0)
 		return nil
 	}
