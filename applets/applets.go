@@ -8,8 +8,12 @@ import (
 )
 
 type Applet struct {
-	Name     string
-	Enabled  bool
+	//How will the applet be refrenced by the server. Name shouldn't
+	//contain spaces
+	Name string
+	//should this applet be shown by default
+	Enabled bool
+	//the function that produces the text to be put on the status bar
 	function func(...interface{}) (string, error)
 }
 
@@ -59,6 +63,7 @@ func Render() {
 		}
 	}
 }
+
 func FindApplet(name string) *Applet {
 	for _, i := range Applets {
 		if i.Name == name {

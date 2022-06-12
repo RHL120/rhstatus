@@ -9,7 +9,11 @@ import (
 )
 
 type command struct {
+	//takes the the arguments and prdouces the function to be called on exec
+	//function does not need to check for the argument count this is done
+	//by the server
 	function func(arg []string) func() error
+	//the amount of arguments expected by function
 	argCount uint8
 }
 
