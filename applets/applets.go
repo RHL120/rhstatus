@@ -26,6 +26,12 @@ func cmdApplet(cmd string) func(...interface{}) (string, error) {
 	}
 }
 
+func constantApplet(str string) func(...interface{}) (string, error) {
+	return func(i ...interface{}) (string, error) {
+		return str, nil
+	}
+}
+
 var Applets []*Applet = []*Applet{
 	{Name: "audio", Enabled: true, function: cmdApplet(audioCmd)},
 	{Name: "battery", Enabled: true, function: batteryApplet},
