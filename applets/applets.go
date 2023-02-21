@@ -65,10 +65,10 @@ func Render() {
 			}
 			if ret != "" {
 				status = fmt.Sprintf("%s  |  %s", status, ret)
-				X.UpdateStatus(status)
 			}
 		}
 	}
+	X.UpdateStatus(status)
 }
 
 //look for the applet with name "name" in applets.applets and return a pointer
