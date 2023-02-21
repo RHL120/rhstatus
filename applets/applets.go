@@ -64,7 +64,7 @@ func Render() {
 				continue
 			}
 			if ret != "" {
-				status = fmt.Sprintf("%s  |  %s", status, ret)
+				status = fmt.Sprintf("%s  │  %s", status, ret)
 			}
 		}
 	}
