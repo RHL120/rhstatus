@@ -18,7 +18,7 @@ type Applet struct {
 	function func() (string, error)
 }
 
-const audioCmd string = "echo \"  \" $(amixer get Master |grep % |sed -e 's/\\].*//' |sed -e 's/.*\\[//')"
+const audioCmd string = "echo -n \"  \" $(amixer get Master |grep % |sed -e 's/\\].*//' |sed -e 's/.*\\[//')"
 
 func cmdApplet(cmd string) func() (string, error) {
 	return func() (string, error) {
