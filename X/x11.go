@@ -1,7 +1,14 @@
 package X
 
-// #cgo LDFLAGS: -lX11
-// #include <X11/Xlib.h>
+// #cgo linux LDFLAGS: -lX11
+// #cgo openbsd CFLAGS: -I/usr/X11R6/include
+// #cgo openbsd LDFLAGS: -L/usr/X11R6/lib -lX11
+// #ifdef __linux__
+//   #include <X11/Xlib.h>
+// #elif defined(__OpenBSD__)
+//   #include <X11/Xlib.h>
+//   #include <X11/Xutil.h>
+// #endif
 // #include <stdlib.h>
 // #define DefaultScreen(dpy) 	(((_XPrivDisplay)(dpy))->default_screen)
 // #define RootWindow(dpy, scr) (ScreenOfDisplay(dpy,scr)->root)
