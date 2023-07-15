@@ -18,7 +18,6 @@ type Applet struct {
 	function func() (string, error)
 }
 
-const audioCmd string = "echo -n \"  \" $(amixer get Master |grep % |sed -e 's/\\].*//' |sed -e 's/.*\\[//')"
 
 func cmdApplet(cmd string) func() (string, error) {
 	return func() (string, error) {
@@ -40,7 +39,7 @@ func constantApplet(str string) func() (string, error) {
 var applets []*Applet = []*Applet{
 	{Name: "caps", Enabled: false, function: constantApplet(" Caps")},
 	{Name: "brightness", Enabled: true, function: brightnessApplet},
-	{Name: "audio", Enabled: true, function: cmdApplet(audioCmd)},
+	{Name: "audio", Enabled: true, function: audioApplet},
 	{Name: "battery", Enabled: true, function: batteryApplet},
 	{Name: "date", Enabled: true, function: dateApplet},
 	{Name: "time", Enabled: true, function: timeApplet},

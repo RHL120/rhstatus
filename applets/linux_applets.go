@@ -1,4 +1,5 @@
-package applets
+//go:build linux
+package applet
 
 import (
 	"fmt"
@@ -7,6 +8,42 @@ import (
 	"strconv"
 	"strings"
 )
+
+const batteryPath = "/sys/class/power_supply/"
+
+func batteryApplet() (string, error) {
+	entries, err := ioutil.ReadDir(batteryPath)
+	if err != nil {
+		return "", err
+	}
+	var ret string
+	for index, i := range entries {
+		if strings.HasPrefix(i.Name(), "BAT") {
+			icon := "    "
+			status, err := ioutil.ReadFile(filepath.Join(batteryPath,
+				i.Name(), "status"))
+			if err != nil {
+				return "", err
+			}
+			if string(status) == "Charging\n" {
+				icon = "   "
+			}
+			cap, err := ioutil.ReadFile(filepath.Join(batteryPath,
+				i.Name(), "capacity"))
+			if err != nil {
+				return "", err
+			}
+			capS := strings.Trim(string(cap), "\n")
+			if index > 0 {
+				ret = fmt.Sprintf("%s %s %s%%", ret, icon, capS)
+			} else {
+				ret = fmt.Sprintf("%s %s%%", icon, capS)
+			}
+		}
+	}
+	return ret, nil
+}
+
 
 const brightnessPath = "/sys/class/backlight/"
 
@@ -50,3 +87,7 @@ func brightnessApplet() (string, error) {
 	}
 	return ret, nil
 }
+
+const audioCmd string = "echo -n \"  \" $(amixer get Master |grep % |sed -e 's/\\].*//' |sed -e 's/.*\\[//')"
+
+var audioApplet = cmdApplet(audioCmd);
