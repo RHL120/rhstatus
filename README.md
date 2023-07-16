@@ -30,4 +30,4 @@ Commands start with the name of the command and then a list of arguments seperat
 by spaces. After sneding the command send a newline. After that you should recive
 either an error or a success message.
 ## Compatibility
-I am a linux user so rhstatus only works on linux and it was only tested on arch
+I have tested this on Linux and OpenBSD
