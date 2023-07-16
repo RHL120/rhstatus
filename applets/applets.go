@@ -35,8 +35,18 @@ func constantApplet(str string) func() (string, error) {
 	}
 }
 
+func capslockApplet() (string, error) {
+	if X.GetCapsLock() {
+		fmt.Println("Caps")
+		return " Caps", nil
+	} else {
+		fmt.Println("No caps")
+		return "", nil
+	}
+}
+
 var applets []*Applet = []*Applet{
-	{Name: "caps", Enabled: false, function: constantApplet(" Caps")},
+	{Name: "caps", Enabled: true, function: capslockApplet},
 	{Name: "brightness", Enabled: true, function: brightnessApplet},
 	{Name: "audio", Enabled: true, function: audioApplet},
 	{Name: "battery", Enabled: true, function: batteryApplet},
