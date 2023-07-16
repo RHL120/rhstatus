@@ -7,7 +7,7 @@ import (
 	"github.com/RHL120/rhstatus/X"
 )
 
-//Contains info about the applet
+// Contains info about the applet
 type Applet struct {
 	//How will the applet be refrenced by the server. Name shouldn't
 	//contain spaces
@@ -17,8 +17,6 @@ type Applet struct {
 	//the function that produces the text to be put on the status bar
 	function func() (string, error)
 }
-
-const audioCmd string = "echo -n \"  \" $(amixer get Master |grep % |sed -e 's/\\].*//' |sed -e 's/.*\\[//')"
 
 func cmdApplet(cmd string) func() (string, error) {
 	return func() (string, error) {
@@ -40,19 +38,19 @@ func constantApplet(str string) func() (string, error) {
 var applets []*Applet = []*Applet{
 	{Name: "caps", Enabled: false, function: constantApplet(" Caps")},
 	{Name: "brightness", Enabled: true, function: brightnessApplet},
-	{Name: "audio", Enabled: true, function: cmdApplet(audioCmd)},
+	{Name: "audio", Enabled: true, function: audioApplet},
 	{Name: "battery", Enabled: true, function: batteryApplet},
 	{Name: "date", Enabled: true, function: dateApplet},
 	{Name: "time", Enabled: true, function: timeApplet},
 }
 
-//Toggle applet.Enabled
+// Toggle applet.Enabled
 func (applet *Applet) Toggle() {
 	applet.Enabled = !applet.Enabled
 }
 
-//run the applets in applets.applets and put their return value onto the status
-//bar
+// run the applets in applets.applets and put their return value onto the status
+// bar
 func Render() {
 	var status string
 	for _, i := range applets {
@@ -71,8 +69,8 @@ func Render() {
 	X.UpdateStatus(status)
 }
 
-//look for the applet with name "name" in applets.applets and return a pointer
-//to it
+// look for the applet with name "name" in applets.applets and return a pointer
+// to it
 func FindApplet(name string) *Applet {
 	for _, i := range applets {
 		if i.Name == name {
