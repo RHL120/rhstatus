@@ -25,17 +25,17 @@ import "unsafe"
 var dpy = C.XOpenDisplay(nil)
 var rw = C.rw(dpy)
 
-//open a display
+// open a display
 func OpenDisplay() *C.Display {
 	return C.XOpenDisplay(nil)
 }
 
-//close the display
+// close the display
 func CloseDisplay() {
 	C.XCloseDisplay(dpy)
 }
 
-//clear the status bar and put status onto it
+// clear the status bar and put status onto it
 func UpdateStatus(status string) {
 	rw := C.rw(dpy)
 	cstatus := C.CString(status)

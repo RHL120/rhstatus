@@ -69,19 +69,19 @@ func batteryApplet() (string, error) {
 	return fmt.Sprintf("%s%v%%", icon, status.battery_life), nil
 }
 
-func brightnessApplet() (string, error) {
-	return "", nil
-}
-
 func audioApplet() (string, error) {
-	hdl := C.sioctl_open(C.sio_devany, C.sioctl_read, 1);
-	if (hdl == nil) {
+	hdl := C.sioctl_open(C.sio_devany, C.sioctl_read, 1)
+	if hdl == nil {
 		return "", fmt.Errorf("Failed to open hdl")
 	}
 	defer C.sioctl_close(hdl)
-	vol := C.get_volume_info(hdl);
+	vol := C.get_volume_info(hdl)
 	if vol.mute {
 		return "  mute", nil
 	}
 	return fmt.Sprintf("  %v%%", int(math.RoundToEven(float64(vol.volume)))), nil
 }
+
+const brightnessCmd string = "echo -n \"  \" $(xbacklight |cut  -d . -f 1) %"
+
+var brightnessApplet = cmdApplet(brightnessCmd)

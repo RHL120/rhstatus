@@ -1,4 +1,5 @@
 //go:build linux
+
 package applet
 
 import (
@@ -43,7 +44,6 @@ func batteryApplet() (string, error) {
 	}
 	return ret, nil
 }
-
 
 const brightnessPath = "/sys/class/backlight/"
 
@@ -90,4 +90,4 @@ func brightnessApplet() (string, error) {
 
 const audioCmd string = "echo -n \"  \" $(amixer get Master |grep % |sed -e 's/\\].*//' |sed -e 's/.*\\[//')"
 
-var audioApplet = cmdApplet(audioCmd);
+var audioApplet = cmdApplet(audioCmd)
