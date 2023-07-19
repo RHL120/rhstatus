@@ -14,6 +14,7 @@ typedef struct apm_power_info apm_power_info;
 typedef struct sioctl_hdl sioctl_hdl;
 const int apm_ioc_getpower = APM_IOC_GETPOWER;
 const u_char apm_ac_on = APM_AC_ON;
+const u_char apm_battery_absent = APM_BATTERY_ABSENT;
 const char *sio_devany = SIO_DEVANY;
 const unsigned int sioctl_read = SIOCTL_READ;
 typedef struct apm_power_info apm_power_info;
@@ -63,6 +64,9 @@ func batteryApplet() (string, error) {
 		return "", fmt.Errorf("Failed to ioctl")
 	}
 	icon := "    "
+	if status.battery_state == C.apm_battery_absent {
+		return "", nil
+	}
 	if status.ac_state == C.apm_ac_on {
 		icon = "   "
 	}

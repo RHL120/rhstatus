@@ -37,10 +37,8 @@ func constantApplet(str string) func() (string, error) {
 
 func capslockApplet() (string, error) {
 	if X.GetCapsLock() {
-		fmt.Println("Caps")
 		return " Caps", nil
 	} else {
-		fmt.Println("No caps")
 		return "", nil
 	}
 }
