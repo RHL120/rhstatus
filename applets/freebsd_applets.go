@@ -3,68 +3,44 @@
 package applets
 
 /*
-#include <sys/ioctl.h>
-#include <machine/apm_bios.h>
-
-typedef struct apm_info apm_info;
-typedef struct apm_pwstatus apm_pwstatus;
-
-const u_int apm_batt_not_present = APM_BATT_NOT_PRESENT;
-const unsigned int apmio_getinfo = APMIO_GETINFO;
-const u_int apm_batt_charging = APM_BATT_CHARGING;
-const u_int apmio_getpwstatus = APMIO_GETPWSTATUS;
-const u_int pmdv_batt0 = PMDV_BATT0;
-
-int ioctl2(unsigned int d, unsigned long r, apm_info *info) {
-	return ioctl(d, r, info);
-}
-
-int ioctl3(unsigned int d, unsigned long r, apm_pwstatus *info) {
-	return ioctl(d, r, info);
-}
-
+#include "c.h"
 */
 import (
 	"C"
 )
-import (
-	"fmt"
-	"os"
-)
+import "fmt"
 
 func batteryApplet() (string, error) {
-	var info C.apm_info
-	var aps C.apm_pwstatus
-	file, err := os.OpenFile("/dev/apm", os.O_RDONLY, 0)
-	if err != nil {
-		return "", err
+	var batt C.battery_t;
+	ret := C.get_battery(&batt)
+	if ret == 0 {
+		return "", nil
+	} else if ret == -1 {
+		return "", fmt.Errorf("Failed to get battery info")
 	}
-	fd := C.uint(file.Fd());
-	defer file.Close()
-	if C.ioctl2(fd, C.apmio_getinfo, &info) < 0 {
-		return "", fmt.Errorf("Failed to ioctl")
+	icon := "    "
+	if batt.charging {
+		icon = "   "
 	}
-	for i := 0; i < int(info.ai_batteries); i++ {
-		aps.ap_device = C.pmdv_batt0 + C.uint(i)
-		if C.ioctl3(fd, C.apmio_getpwstatus, &aps) < 0 {
-			return "", fmt.Errorf("Failed to ioctl")
-		}
-
-		if aps.ap_batt_flag&C.apm_batt_not_present == 0 {
-			icon := "    "
-			if info.ai_acline == 1 {
-				icon = "   "
-			}
-			return fmt.Sprintf("%s%v%%", icon, info.ai_batt_life), nil
-		}
-	}
-	return "", nil
+	return fmt.Sprintf("%s%v%%", icon, batt.charge), nil
 }
 
 func audioApplet() (string, error) {
-	return "", nil
+	vol := C.get_sound();
+	if  vol == -1{
+		return "", fmt.Errorf("Failed to get volume info");
+	}
+	if vol == 0 {
+		return "  mute", nil
+	}
+	return fmt.Sprintf("  %v%%", vol), nil
+
 }
 
 func brightnessApplet() (string, error) {
-	return "", nil
+	bright := C.get_brightness();
+	if  bright == -1{
+		return "", fmt.Errorf("Failed to get brightness info");
+	}
+	return fmt.Sprintf("  %d%%", bright), nil
 }
