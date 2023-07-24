@@ -19,11 +19,11 @@ int get_battery(battery_t *stat) {
 		goto close_fd;
 	}
 	for (i = 0; i < info.ai_batteries; i++) {
-		pw_stat.ap_device = PMDV_BATT0 + 1;
+		pw_stat.ap_device = PMDV_BATT0 + i;
 		if (ioctl(fd, APMIO_GETPWSTATUS, &pw_stat) < 0) {
 			goto close_fd;
 		}
-		if (!(pw_stat.ap_batt_stat & APM_BATT_NOT_PRESENT)) {
+		if (!(pw_stat.ap_batt_flag & APM_BATT_NOT_PRESENT)) {
 			stat->charging = info.ai_acline == 1;
 			stat->charge = info.ai_batt_life;
 			ret = 1;
