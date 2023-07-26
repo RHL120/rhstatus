@@ -4,6 +4,8 @@ package X
  #cgo linux LDFLAGS: -lX11
  #cgo openbsd CFLAGS: -I/usr/X11R6/include
  #cgo openbsd LDFLAGS: -L/usr/X11R6/lib -lX11
+ #cgo freebsd CFLAGS: -I/usr/local/include -D_THREAD_SAFE
+ #cgo freebsd LDFLAGS: -L/usr/local/lib -lX11
  #ifdef __linux__
    #include <X11/Xlib.h>
  #elif defined(__OpenBSD__)
