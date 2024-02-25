@@ -3,7 +3,7 @@ package applets
 import (
 	"fmt"
 	"os/exec"
-
+	"C"
 	"github.com/RHL120/rhstatus/X"
 )
 

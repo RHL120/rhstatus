@@ -1,6 +1,6 @@
 //go:build linux
 
-package applet
+package applets
 
 import (
 	"fmt"

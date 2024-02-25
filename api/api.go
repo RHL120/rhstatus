@@ -25,11 +25,11 @@ func RunServer(ch chan func() error) {
 		if err != nil {
 			fmt.Printf("Failed to accept a connection, error: %v\n", err)
 		}
-		go handelConnection(conn, ch)
+		go handleConnection(conn, ch)
 	}
 }
 
-func handelConnection(conn net.Conn, ch chan func() error) {
+func handleConnection(conn net.Conn, ch chan func() error) {
 	defer conn.Close()
 	data, err := bufio.NewReader(conn).ReadString('\n')
 	if err != nil {

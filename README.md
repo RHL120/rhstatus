@@ -26,8 +26,8 @@ constant.
 ## Usage
 ### Server
 In order to communicate with the status bar send commands to localhost : **port**
-Commands start with the name of the command and then a list of arguments seperated
-by spaces. After sneding the command send a newline. After that you should recive
+Commands start with the name of the command and then a list of arguments separated
+by spaces. After sneding the command send a newline. After that you should receive
 either an error or a success message.
 ## Compatibility
 I have tested this on Linux and OpenBSD

@@ -1,3 +1,4 @@
+#ifdef  __FreeBSD__
 #include <fcntl.h>
 #include <unistd.h>
 #include <machine/apm_bios.h>
@@ -5,7 +6,6 @@
 #include <sys/backlight.h>
 #include "c.h"
 
-#ifdef  __FreeBSD__
 int get_battery(battery_t *stat) {
 	int i;
 	bool ret = -1;
