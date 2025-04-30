@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"os"
+	"os/exec"
 
 	"github.com/RHL120/rhstatus/X"
 	"github.com/RHL120/rhstatus/applets"
@@ -65,9 +66,24 @@ func shutdown(arg []string) func() error {
 	}
 }
 
+func shell(c string) func([]string) func() error {
+	return func(arg []string) func() error {
+		return func() error {
+			cmd := exec.Command("sh", "-c", c);
+			_, err := cmd.Output();
+			return err;
+
+		}
+	}
+}
+
 var commands map[string]command = map[string]command{
 	"shutdown": {function: shutdown, argCount: 0},
 	"toggle":   {function: toggleApplet, argCount: 1},
 	"turn":     {function: turnApplet, argCount: 2},
 	"refresh":  {function: refresh, argCount: 0},
+	"button5":  {function: shell("xbacklight -dec 1;"), argCount: 0},
+	"button4":  {function: shell("xbacklight -inc 1;"), argCount: 0},
+	"button6":  {function: shell("amixer set Master 5%-"), argCount: 0},
+	"button7":  {function: shell("amixer set Master 5%+"), argCount: 0},
 }
