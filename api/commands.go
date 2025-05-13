@@ -82,8 +82,4 @@ var commands map[string]command = map[string]command{
 	"toggle":   {function: toggleApplet, argCount: 1},
 	"turn":     {function: turnApplet, argCount: 2},
 	"refresh":  {function: refresh, argCount: 0},
-	"button5":  {function: shell("xbacklight -dec 1;"), argCount: 0},
-	"button4":  {function: shell("xbacklight -inc 1;"), argCount: 0},
-	"button6":  {function: shell("amixer set Master 5%-"), argCount: 0},
-	"button7":  {function: shell("amixer set Master 5%+"), argCount: 0},
 }
